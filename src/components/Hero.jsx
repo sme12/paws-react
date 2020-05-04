@@ -5,13 +5,13 @@ import Header from './Header';
 
 const HeroStyles = styled.div`
     .hero {
-        min-height: 512px;
+        min-height: 520px;
         background-image: ${props => `linear-gradient(180deg, rgba(25, 27, 31, 0) 0%, rgba(25, 27, 31, 0.5) 35.23%, rgba(25, 27, 31, 0.7) 52.65%, rgba(25, 27, 31, 0.9) 71.21%, #191B1F 100%), 
             url('${props.bgImg}')`
         };
         background-position-x: center;
         background-position-y: bottom, top;
-        background-size: 100% 132px, cover;
+        background-size: 100% 128px, cover;
         background-repeat: no-repeat;
     }
 
