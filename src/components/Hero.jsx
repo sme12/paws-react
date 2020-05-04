@@ -5,7 +5,9 @@ import Header from './Header';
 
 const HeroStyles = styled.div`
     .hero {
-        min-height: 520px;
+        display: flex;
+        flex-direction: column;
+        height: 520px;
         background-image: ${props => `linear-gradient(180deg, rgba(25, 27, 31, 0) 0%, rgba(25, 27, 31, 0.5) 35.23%, rgba(25, 27, 31, 0.7) 52.65%, rgba(25, 27, 31, 0.9) 71.21%, #191B1F 100%), 
             url('${props.bgImg}')`
         };
@@ -13,6 +15,13 @@ const HeroStyles = styled.div`
         background-position-y: bottom, top;
         background-size: 100% 128px, cover;
         background-repeat: no-repeat;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
     }
 
     .description {
@@ -26,16 +35,19 @@ const HeroStyles = styled.div`
     }
 `;
 
-const Hero = ({ bgImg, description }) => {
+const Hero = ({ bgImg, description, children }) => {
     return (
         <HeroStyles bgImg={bgImg}>  
             <div className="hero">
                 <Header />
-                <ContentStyles>
-                    <div
-                        className="description"
-                        dangerouslySetInnerHTML={{__html: description}}
-                    ></div>
+                <ContentStyles grow={true}>
+                    <div className="hero-content">
+                        <div
+                            className="description"
+                            dangerouslySetInnerHTML={{__html: description}}
+                        ></div>
+                        <div>{children}</div>
+                    </div>
                 </ContentStyles>
             </div>
         </HeroStyles>
