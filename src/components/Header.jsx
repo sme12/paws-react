@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import ContentStyles from './styles/ContentStyles';
-import {
-    NavLink,
-    Link
-} from "react-router-dom";
+import { Grid, GridItem } from './styles/Grid';
+import { NavLink, Link } from "react-router-dom";
 
 const HeaderStyles = styled.div`
     header {
@@ -83,26 +81,35 @@ const Header = () => {
         <HeaderStyles>  
             <header>
                 <ContentStyles>
-                    <div className="header-inner">
-                        <Nav />
-                        <Link to="/">
-                            <img src="./logo.svg" alt="Paws"/>
-                        </Link>
-                        <NavStyles>
-                            <ul className="secondary-nav">
-                                <li>
-                                    <NavLink to="/about">
-                                        О проекте
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/shelters-info">
-                                        Информация для приютов
-                                    </NavLink>
-                                </li>
-                            </ul>
-                        </NavStyles>
-                    </div>
+                    <Grid
+                        templateColumns="repeat(12, 1fr)"
+                        alignItems="center"
+                    >
+                        <GridItem column="1 / 6" justifySelf="left">
+                            <Nav />
+                        </GridItem>
+                        <GridItem column="6 / 8" justifySelf="center">
+                            <Link to="/">
+                                <img src="./logo.svg" alt="Paws"/>
+                            </Link>
+                        </GridItem>
+                        <GridItem column="8 / 13" justifySelf="right">
+                            <NavStyles>
+                                <ul className="secondary-nav">
+                                    <li>
+                                        <NavLink to="/about">
+                                            О проекте
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/shelters-info">
+                                            Информация для приютов
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            </NavStyles>
+                        </GridItem>
+                    </Grid>
                 </ContentStyles>
             </header>
         </HeaderStyles>

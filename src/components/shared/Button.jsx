@@ -20,12 +20,13 @@ export const BaseButton = styled(Button)`
     justify-content: center;
     border: 2px solid var(--white);
     border-radius: 8px;
-    padding: 20px 24px;
+    padding: 18px 24px;
     background-color: var(--grey);
     box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.6);
     color: var(--white);
     font-family: var(--font-family);
     font-size: var(--font-size-2);
+    font-weight: 700;
     line-height: 1.2;
     transition: background-color .3s, color .3s;
     cursor: pointer;
@@ -34,7 +35,7 @@ export const BaseButton = styled(Button)`
 
     &:hover {
         background-color: var(--white);
-        color: var(--dark-grey);
+        color: var(--grey);
     }
 
     &:active {

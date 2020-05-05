@@ -27,7 +27,7 @@ const HeroStyles = styled.div`
     .description {
         padding-top: 178px;
         font-size: var(--font-size-3);
-        line-height: 1.16;
+        line-height: 1,1666666667;
         font-weight: 500;
         color: var(--light-grey);
         text-align: center;

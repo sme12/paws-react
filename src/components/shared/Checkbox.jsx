@@ -71,7 +71,7 @@ export const Toggle = styled(Checkbox)`
         display: block;
         position: absolute;
         top: -2px;
-        left: -2px;
+        left: -2.5px;
         height: 28px;
         width: var(--toggler-width);
         background-color: var(--grey);
