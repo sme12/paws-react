@@ -13,7 +13,7 @@ const HomeControls = () => {
         >
             <GridItem column="1 / 7">
                 <Autocomplete 
-                    label="Я ищу собаку в городе"
+                    label="Я ищу собаку в городе:"
                     placeholder="Начните набирать название города"
                     name="city"
                 />
