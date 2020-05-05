@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import { Grid, GridItem } from '../components/styles/Grid';
 import { BaseButton } from '../components/shared/Button';
 import { Toggle } from '../components/shared/Checkbox';
+import Autocomplete from '../components/shared/Autocomplete';
 
 const HomeControls = () => {
     return (
@@ -11,17 +12,20 @@ const HomeControls = () => {
             alignItems="center"
         >
             <GridItem column="1 / 7">
-                <label htmlFor="city">Я ищу собаку в городе</label>
-                <input id="city" name="city" type="text"/>
+                <Autocomplete 
+                    label="Я ищу собаку в городе"
+                    placeholder="Начните набирать название города"
+                    name="city"
+                />
             </GridItem>
-            <GridItem column="7 / 10">
+            <GridItem column="7 / 10" style={{marginTop: '39px'}}>
                 <Toggle
                     name="any-city"
                 >
                     Любой город
                 </Toggle>
             </GridItem>
-            <GridItem column="10 / 13">
+            <GridItem column="10 / 13" style={{marginTop: '39px'}}>
                 <BaseButton className="home-controls-button">Давайте посмотрим!</BaseButton>
             </GridItem>
         </Grid>
