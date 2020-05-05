@@ -7,17 +7,8 @@ export const Grid = styled.div`
     ${is('templateColumns')`
         grid-template-columns: ${props => props.templateColumns};
     `};
-    ${is('rowGap')`
-        grid-row-gap: ${props => props.rowGap};
-    `};
-    ${is('autoRows')`
-        grid-auto-rows: ${props => props.autoRows};
-    `};
-    ${is('width')`
-        width: ${props => props.width};
-    `};
-    ${is('height')`
-        height: ${props => props.height};
+    ${is('alignItems')`
+        align-items: ${props => props.alignItems};
     `};
 `;
 
