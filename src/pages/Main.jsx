@@ -5,6 +5,13 @@ import { BaseButton } from '../components/shared/Button';
 import { Toggle } from '../components/shared/Checkbox';
 import Autocomplete from '../components/shared/Autocomplete';
 
+const CITY_LIST = [
+    'Самара',
+    'Санкт-Петербург',
+    'Саранск',
+    'Саратов'
+]
+
 const HomeControls = () => {
     return (
         <Grid
@@ -16,6 +23,7 @@ const HomeControls = () => {
                     label="Я ищу собаку в городе:"
                     placeholder="Начните набирать название города"
                     name="city"
+                    options={CITY_LIST}
                 />
             </GridItem>
             <GridItem column="7 / 10" style={{marginTop: '39px'}}>
