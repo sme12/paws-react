@@ -34,11 +34,12 @@ export const Toggle = styled(Checkbox)`
     .toggle {
         --text-line-height: 12px;
         --toggle-width: 74px;
+        --toggle-bg-color: var(--silver-grey);
         display: block;
         position: relative;
         width: var(--toggle-width);
         height: 28px;
-        background-color: var(--silver-grey);
+        background-color: var(--toggle-bg-color);
         border: 2px solid var(--silver-grey);
         border-radius: 8px;
         transition: border .3s;
@@ -71,16 +72,17 @@ export const Toggle = styled(Checkbox)`
         display: block;
         position: absolute;
         top: -2px;
-        left: -2.5px;
+        left: -2px;
         height: 28px;
         width: var(--toggler-width);
         background-color: var(--grey);
+        border: 2px solid var(--toggle-bg-color);
         border-radius: 8px;
         transition: transform .3s, background-color .3s;
     }
 
     input:checked + .toggle {
-        background-color: transparent;
+        --toggle-bg-color: transparent;
         border: 2px solid var(--white);
     }
 
