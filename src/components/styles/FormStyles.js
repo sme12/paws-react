@@ -1,6 +1,12 @@
 import styled from 'styled-components';
+import is from 'styled-is';
 
 const FormStyles = styled.div`
+    ${is('autocomplete')`
+        position: relative;
+        z-index: 1;
+    `};
+
     label {
         display: block;
         font-size: var(--font-size-2);
@@ -16,6 +22,7 @@ const FormStyles = styled.div`
         border: none;
         border-radius: 8px;
         background-color: #ddd;
+        color: var(--dark-grey);
     }
 
     input::placeholder {

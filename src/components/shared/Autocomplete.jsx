@@ -6,7 +6,7 @@ const AutocompleteStyles = styled.div`
     & {
         position: relative;
     }
-
+    
     .options {
         display: block;
         visibility: hidden;
@@ -15,6 +15,12 @@ const AutocompleteStyles = styled.div`
         top: 100%;
         left: 0;
         width: 100%;
+        margin: 0;
+        margin-top: -7px;
+        padding: 0;
+        padding-top: 7px;
+        background-color: #bababb;
+        color: var(--grey);
     }
 
     .options.is-visible {
@@ -24,20 +30,40 @@ const AutocompleteStyles = styled.div`
 
     .option {
         display: block;
+        margin: 0;
+        padding: 10px 8px;
+        border-bottom: 1px solid #85858b;
+        cursor: pointer;
+    }
+
+    .option:hover,
+    .option.is-active {
+        background-color: #ddd;
+        color: var(--dark-grey);
     }
 `;
 
 
-const Autocomplete = ({ label, className, name , placeholder, required, options}) => {
+const Autocomplete = ({ label, className, name , placeholder, required, options, activeOptionIndex}) => {
     const initialState = {
         isMenuOpen: false,
         query: '',
-        options: options
+        options: options,
+        activeOptionIndex: -1
     }
+
+    const keyCodes = {
+        13: 'enter',
+        27: 'escape',
+        32: 'space',
+        38: 'up',
+        40: 'down'
+      }
 
     const [state, setState] = useState({ ...initialState });
 
     const ref = React.createRef();
+    const autocompleteInput = React.createRef();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -62,31 +88,86 @@ const Autocomplete = ({ label, className, name , placeholder, required, options}
         const newQuery = event.target.value;
         const filteredOptions = filterOptions(newQuery);
 
-        setState({ ...state, query: newQuery, options: filteredOptions });
+        setState({ ...state, query: newQuery, options: filteredOptions, isMenuOpen: true });
     }
 
     const handleInputBlur = event => {
     }
 
     const handleInputFocus = event => {
-        setState({ ...state, isMenuOpen: true });
+        setState({ ...state, isMenuOpen: true, activeOptionIndex: -1 });
     }
 
     const handleInputClick = event => {
         console.log(event);
     }
 
-    const handleOptionClick = (event, index) => {
+    const handleOptionSelect = (index) => {
         const selectedOption = state.options[index];
         const filteredOptions = filterOptions(selectedOption);
+        autocompleteInput.current.focus();
         setState({ ...state, query: selectedOption, isMenuOpen: false, options: filteredOptions });
     }
 
+    const handleUpArrow = event => {
+        event.preventDefault();
+        const setActiveIndex = () => {
+            const currentIndex = state.activeOptionIndex;
+            if (currentIndex > 0) {
+                return currentIndex - 1;
+            }
+            return currentIndex;
+        }
+        setState({ ...state, activeOptionIndex: setActiveIndex() })
+    }
+
+    const handleDownArrow = event => {
+        event.preventDefault();
+        const setActiveIndex = () => {
+            const currentIndex = state.activeOptionIndex;
+            if (currentIndex < state.options.length - 1) {
+                return currentIndex + 1;
+            }
+            return currentIndex;
+        }
+        setState({ ...state, activeOptionIndex: setActiveIndex() })
+    }
+
+    const handleSpace = event => {
+        event.preventDefault();
+        handleOptionSelect(state.activeOptionIndex);
+    }
+
+    const handleEnter = event => {
+        event.preventDefault();
+        handleOptionSelect(state.activeOptionIndex);
+    }
+
+    const handleKeyDown = (event) => {
+        switch (keyCodes[event.keyCode]) {
+          case 'up':
+            handleUpArrow(event)
+            break
+          case 'down':
+            handleDownArrow(event)
+            break
+          case 'space':
+            handleSpace(event)
+            break
+          case 'enter':
+            handleEnter(event)
+            break
+          default:
+            break
+        }
+      }
+
     return (
-        <AutocompleteStyles ref={ref}>
-            <FormStyles>
+        <AutocompleteStyles ref={ref} onKeyDown={handleKeyDown}>
+            <FormStyles autocomplete>
                 <label htmlFor={name}>{label}</label>
                 <input
+                    ref={autocompleteInput} 
                     autoComplete='off'
                     className={className}
                     id={name}
@@ -106,9 +187,9 @@ const Autocomplete = ({ label, className, name , placeholder, required, options}
             >
                 {state.options.map((option, index) => (
                         <li
-                            className="option"
-                            id={`${name}-option-${index}`}
-                            onClick={(event) => handleOptionClick(event, index)}
+                            className={`option ${state.activeOptionIndex === index ? 'is-active' : ''}`}
+                            key={`${name}-option-${index}`}
+                            onClick={() => handleOptionSelect(index)}
                         >
                             {option}
                         </li>
