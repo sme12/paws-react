@@ -14,6 +14,8 @@ export const Grid = styled.div`
 
 export const GridItem = styled.div`
     grid-row: 1;
+    ${is('fullWidth')`
+        width: 100%`};
     ${is('justifySelf')`
         justify-self: ${props => props.justifySelf}`};
     ${is('column')`

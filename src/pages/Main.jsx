@@ -3,6 +3,8 @@ import Hero from '../components/Hero';
 import { Grid, GridItem } from '../components/styles/Grid';
 import { BaseButton } from '../components/shared/Button';
 import { Toggle } from '../components/shared/Checkbox';
+import Suggestions from '../components/shared/Suggestions';
+import ContentStyles from '../components/styles/ContentStyles';
 import Autocomplete from '../components/shared/Autocomplete';
 
 const CITY_LIST = [
@@ -10,6 +12,29 @@ const CITY_LIST = [
     'Санкт-Петербург',
     'Саранск',
     'Саратов'
+]
+
+const DOGGIES = [
+    {
+        name: 'Проня',
+        age: 'Молодой пёс',
+        breed: 'Метис'
+    },
+    {
+        name: 'Проня',
+        age: 'Молодой пёс',
+        breed: 'Метис'
+    },
+    {
+        name: 'Проня',
+        age: 'Молодой пёс',
+        breed: 'Метис'
+    },
+    {
+        name: 'Проня',
+        age: 'Молодой пёс',
+        breed: 'Метис'
+    },
 ]
 
 const HomeControls = () => {
@@ -49,7 +74,29 @@ const Main = () => {
             >
                 <HomeControls />
             </Hero>
-            <div style={{paddingTop: '56px'}}></div>
+            <ContentStyles>
+                <div style={{paddingTop: '56px', paddingBottom: '48px', fontSize: '24px'}}>
+                    <p style={{margin: '0 auto 56px auto', maxWidth: '757px', textAlign: 'center'}}>
+                        Или посмотрите среди этих отличных ребят, которые прямо сейчас ищут свой дом
+                    </p>
+                    <div style={{marginBottom: '48px'}}>
+                        <Suggestions doggies={DOGGIES} />
+                    </div>
+                    <Grid
+                        templateColumns="repeat(3, 1fr)"
+                        alignItems="center"
+                    >
+                        <GridItem column="1 / 3" justifySelf="left">
+                            <p>
+                                ...и еще тысячи хвостов в приютах по всем городам России
+                            </p>
+                        </GridItem>
+                        <GridItem column="3 / 4">
+                            <BaseButton>Перейти к объявлениям</BaseButton>
+                        </GridItem>
+                    </Grid>
+                </div>
+            </ContentStyles>
         </div>
     );
 };
