@@ -17,23 +17,27 @@ const CITY_LIST = [
 const DOGGIES = [
     {
         name: 'Проня',
-        age: 'Молодой пёс',
-        breed: 'Метис'
+        age: 'Щенок',
+        breed: 'Метис',
+        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/pronya.jpg'
     },
     {
-        name: 'Проня',
-        age: 'Молодой пёс',
-        breed: 'Метис'
+        name: 'Байкал',
+        age: 'Щенок',
+        breed: 'Метис',
+        image: 'https://paws-react.herokuapp.com/sign/fill/270/208/ce/0/plain/s3://paws-bucket/baykal.jpg'
     },
     {
-        name: 'Проня',
+        name: 'Михалыч',
         age: 'Молодой пёс',
-        breed: 'Метис'
+        breed: 'Метис',
+        image: 'https://paws-react.herokuapp.com/sign/fill/270/208/sm/0/plain/s3://paws-bucket/pronya.jpg'
     },
     {
-        name: 'Проня',
-        age: 'Молодой пёс',
-        breed: 'Метис'
+        name: 'Марли',
+        age: 'Молодая собака',
+        breed: 'Метис',
+        image: 'https://paws-react.herokuapp.com/sign/fill/270/208/sm/0/plain/s3://paws-bucket/pronya.jpg'
     },
 ]
 
