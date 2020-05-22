@@ -25,19 +25,19 @@ const DOGGIES = [
         name: 'Байкал',
         age: 'Щенок',
         breed: 'Метис',
-        image: 'https://paws-react.herokuapp.com/sign/fill/270/208/ce/0/plain/s3://paws-bucket/baykal.jpg'
+        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/baykal.jpg'
     },
     {
         name: 'Михалыч',
         age: 'Молодой пёс',
         breed: 'Метис',
-        image: 'https://paws-react.herokuapp.com/sign/fill/270/208/sm/0/plain/s3://paws-bucket/pronya.jpg'
+        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/mihalych.jpg'
     },
     {
-        name: 'Марли',
+        name: 'Вишня',
         age: 'Молодая собака',
         breed: 'Метис',
-        image: 'https://paws-react.herokuapp.com/sign/fill/270/208/sm/0/plain/s3://paws-bucket/pronya.jpg'
+        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/vishnya.jpg'
     },
 ]
 
