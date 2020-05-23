@@ -144,7 +144,7 @@ const Main = () => {
             >
                 <HomeControls />
             </Hero>
-            <section style={{paddingTop: '56px', paddingBottom: '48px', fontSize: '24px'}}>
+            <section style={{ paddingTop: '56px', paddingBottom: '48px', fontSize: '24px' }}>
                 <ContentStyles>
                     <p style={{margin: '0 auto 56px auto', maxWidth: '757px', textAlign: 'center'}}>
                         Или посмотрите среди этих отличных ребят, которые прямо сейчас ищут свой дом
@@ -167,34 +167,74 @@ const Main = () => {
                     </Grid>
                 </ContentStyles>
             </section>
-            <section style={{paddingTop: '40px', paddingBottom: '24px', backgroundColor: 'var(--bg-grey)'}}>
+            <section style={{ paddingTop: '40px', paddingBottom: '40px', backgroundColor: 'var(--bg-grey)' }}>
                 <ContentStyles>
-                        <Grid
-                            templateColumns="repeat(3, 1fr)"
-                            alignItems="center"
-                        >
-                            <GridItem column="auto">
-                                <ArticleCard
-                                    icon="./icon-questions.svg"
-                                    heading="У меня масса вопросов!"
-                                    text="В формате вопрос-ответ рассказываем о самом важном в адаптации собаки в семью. Рекомендации к прочтению - практически на уровне “обязательно”."
-                                ></ArticleCard>
-                            </GridItem>
-                            <GridItem column="auto">
-                                <ArticleCard
-                                    icon="./icon-list.svg"
-                                    heading="Как подготовиться к собаке?"
-                                    text="Ок, вы точно убедились, что морально готовы к собаке. Что теперь? Коротенький чек-лист для будущего хозяина собаки из приюта."
-                                ></ArticleCard>
-                            </GridItem>
-                            <GridItem column="auto">
-                                <ArticleCard
-                                    icon="./icon-care.svg"
-                                    heading="Я хочу помочь по-другому"
-                                    text="По каким-то причинам вы не можете взять собаку, но очень хотите ей помочь. Разбираемся, как работает кнопка “Стать куратором” и подходит ли вам эта опция."
-                                ></ArticleCard>
-                            </GridItem>
-                        </Grid>
+                    <Grid
+                        templateColumns="repeat(3, 1fr)"
+                        alignItems="center"
+                    >
+                        <GridItem column="auto">
+                            <ArticleCard
+                                icon="./icon-questions.svg"
+                                heading="У меня масса вопросов!"
+                                text="В формате вопрос-ответ рассказываем о самом важном в адаптации собаки в семью. Рекомендации к прочтению - практически на уровне “обязательно”."
+                            ></ArticleCard>
+                        </GridItem>
+                        <GridItem column="auto">
+                            <ArticleCard
+                                icon="./icon-list.svg"
+                                heading="Как подготовиться к собаке?"
+                                text="Ок, вы точно убедились, что морально готовы к собаке. Что теперь? Коротенький чек-лист для будущего хозяина собаки из приюта."
+                            ></ArticleCard>
+                        </GridItem>
+                        <GridItem column="auto">
+                            <ArticleCard
+                                icon="./icon-care.svg"
+                                heading="Я хочу помочь по-другому"
+                                text="По каким-то причинам вы не можете взять собаку, но очень хотите ей помочь. Разбираемся, как работает кнопка “Стать куратором” и подходит ли вам эта опция."
+                            ></ArticleCard>
+                        </GridItem>
+                    </Grid>
+                </ContentStyles>
+            </section>
+            <section style={{ paddingTop: '40px', paddingBottom: '24px', backgroundColor: 'var(--bg-grey)' }}>
+                <ContentStyles>
+                    <Grid
+                        templateColumns="repeat(3, 1fr)"
+                    >
+                        <GridItem column="1 / 2">
+                            <p style={{ fontSize: '.875rem', lineHeight: '1.2' }}>
+                                PAWS - это доска объявлений от собачьих приютов.
+                                Все объявления создаются приютами, и только они несут ответственность за актуальность информации. Модераторы сайта являются исключительно ретрансляторами, помогающими облечь информацию в нужную форму.
+                                <br /><br />
+                                PAWS - полностью некоммерческий проект. Мы не берём платы за размещение объявлений или за доступ к его материалам. 
+                                У нас есть партнёры - производители товаров для собак. Они поддерживают нас финансово в обмен на рекламу. Однако мы предоставляем информационную поддержку только тем, в чьей продукции полностью уверены. Если вы хотите стать нашим партнёром, напишите нам на почту paws-studio@gmail.com, мы обсудим подробности. 
+                                Если вы просто хотите помочь нам, вы можете оформить одноразовый или регулярный донат с помощью кнопки “Поддержать” в шапке сайта или в самом низу страницы. 
+                            </p>
+                        </GridItem>
+                        <GridItem column="2 / 4">
+                            <div style={{ 
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                                height: '240px',
+                                marginBottom: '32px',
+                                backgroundColor: 'var(--grey)' 
+                            }}>Место для вашей рекламы</div>
+                            <div style={{ 
+                                display: 'flex',
+                                alignItems: 'center', 
+                            }}>
+                                <img 
+                                    src="./icon-love.svg"
+                                    alt="Пиктограмма: сердце и лапка"
+                                    style={{ marginRight: '32px' }}
+                                />
+                                <p style={{ fontSize: '20px' }}>Спасибо, что помогаете вместе с нами</p>
+                            </div>
+                        </GridItem>
+                    </Grid>
                 </ContentStyles>
             </section>
         </div>
