@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Hero from '../components/Hero';
+import Footer from '../components/Footer';
 import { Grid, GridItem } from '../components/styles/Grid';
 import { BaseLink } from '../components/shared/Link';
 import { BaseButton } from '../components/shared/Button';
@@ -237,6 +238,7 @@ const Main = () => {
                     </Grid>
                 </ContentStyles>
             </section>
+            <Footer />
         </div>
     );
 };

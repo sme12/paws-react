@@ -51,3 +51,18 @@ export const BaseButton = styled(Button)`
         }
     }
 `;
+
+export const GhostButton = styled(BaseButton)`
+    display: inline-flex;
+    min-height: auto;
+    border: 1px solid var(--white);
+    padding: 10px 16px;
+    background-color: transparent;
+    font-size: var(--font-size-0);
+    font-weight: 400;
+    box-shadow: none;
+
+    &.footer-button {
+        max-width: 172px;
+    }
+`;
