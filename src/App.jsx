@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from './pages/Main';
 import List from './pages/List';
-
+import ScrollUpButton from './components/shared/ScrollUpButton';
 import {
     Switch,
     Route
@@ -18,6 +18,7 @@ const App = () => {
                 <Main />
             </Route>
         </Switch>
+        <ScrollUpButton />
     </div>
     );
 };

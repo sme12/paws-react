@@ -122,7 +122,7 @@ const ArticleCard = ({ heading, text, icon }) => {
     >
         <a href="/">
             <div className="metaWrapper">
-                <div class="icon"><img src={icon} alt={heading}/></div>
+                <div className="icon"><img src={icon} alt={heading}/></div>
                 <h2>{heading}</h2>
                 <p>{text}</p>
             </div>
