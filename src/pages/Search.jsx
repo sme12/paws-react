@@ -37,7 +37,7 @@ const SearchControls = () => {
                 <GridItem column="8 / 10">
                     <Autocomplete 
                         label="Пол:"
-                        placeholder="Начните"
+                        placeholder="Выберите ниже"
                         name="sex"
                         options={['Мальчик', 'Девочка']}
                     />
@@ -45,7 +45,7 @@ const SearchControls = () => {
                 <GridItem column="10 / 13">
                     <Autocomplete 
                         label="Возраст:"
-                        placeholder="Начните"
+                        placeholder="Выберите ниже"
                         name="age"
                         options={ages}
                     />
