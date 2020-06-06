@@ -1,6 +1,6 @@
 import React from 'react';
 import Main from './pages/Main';
-import List from './pages/List';
+import Search from './pages/Search';
 import ScrollUpButton from './components/shared/ScrollUpButton';
 import {
     Switch,
@@ -11,8 +11,8 @@ const App = () => {
     return (
     <div className="layout">
         <Switch>
-            <Route path="/list">
-                <List />
+            <Route path="/search">
+                <Search />
             </Route>
             <Route path="/">
                 <Main />

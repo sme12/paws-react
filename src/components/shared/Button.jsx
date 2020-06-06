@@ -51,6 +51,14 @@ export const BaseButton = styled(Button)`
         }
     }
 `;
+export const SecondaryButton = styled(BaseButton)`
+    --bgColor: rgba(255, 255, 255, .7);
+    min-height: auto;
+    color: var(--dark-grey);
+    border: 2px solid transparent;
+    background-color: var(--bgColor);
+    box-shadow: none;
+`;
 
 export const GhostButton = styled(BaseButton)`
     display: inline-flex;

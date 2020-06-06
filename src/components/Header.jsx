@@ -61,7 +61,7 @@ const Nav = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/list">
+                    <NavLink to="/search">
                         Объявления
                     </NavLink>
                 </li>

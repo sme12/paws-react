@@ -9,40 +9,8 @@ import { Toggle } from '../components/shared/Checkbox';
 import Suggestions from '../components/shared/Suggestions';
 import ContentStyles from '../components/styles/ContentStyles';
 import Autocomplete from '../components/shared/Autocomplete';
-
-const CITY_LIST = [
-    'Самара',
-    'Санкт-Петербург',
-    'Саранск',
-    'Саратов'
-]
-
-const DOGGIES = [
-    {
-        name: 'Проня',
-        age: 'Щенок',
-        breed: 'Метис',
-        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/pronya.jpg'
-    },
-    {
-        name: 'Байкал',
-        age: 'Щенок',
-        breed: 'Метис',
-        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/baykal.jpg'
-    },
-    {
-        name: 'Михалыч',
-        age: 'Молодой пёс',
-        breed: 'Метис',
-        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/mihalych.jpg'
-    },
-    {
-        name: 'Вишня',
-        age: 'Молодая собака',
-        breed: 'Метис',
-        image: 'https://paws-react.herokuapp.com/sign/fill/540/416/ce/0/plain/s3://paws-bucket/vishnya.jpg'
-    },
-]
+import cityList from '../mocks/cityList';
+import doggies from '../mocks/doggies';
 
 const HomeControls = () => {
     return (
@@ -55,7 +23,7 @@ const HomeControls = () => {
                     label="Я ищу собаку в городе:"
                     placeholder="Начните набирать название города"
                     name="city"
-                    options={CITY_LIST}
+                    options={cityList}
                 />
             </GridItem>
             <GridItem column="7 / 10" style={{marginTop: '39px'}}>
@@ -151,7 +119,7 @@ const Main = () => {
                         Или посмотрите среди этих отличных ребят, которые прямо сейчас ищут свой дом
                     </p>
                     <div style={{marginBottom: '48px'}}>
-                        <Suggestions doggies={DOGGIES} />
+                        <Suggestions doggies={doggies} />
                     </div>
                     <Grid
                         templateColumns="repeat(3, 1fr)"

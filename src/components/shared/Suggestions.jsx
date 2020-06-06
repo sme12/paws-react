@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Grid, GridItem } from '../styles/Grid';
 import { BaseLink } from './Link';
 import styled from 'styled-components';
+import { IMAGE_PROXY } from '../../constants';
 
 const DoggieCardStyles = styled.div`
     font-size: 1rem;
@@ -49,7 +50,7 @@ const DoggieCard = ({ name, age, breed, image }) => {
     const [state, setHover] = useState({ hover: false });
     return (
         <DoggieCardStyles 
-            image={image}
+            image={`${IMAGE_PROXY.url}fill/540/416/ce/0/plain/${IMAGE_PROXY.storage}${image}`}
             onMouseOver={() => setHover({ hover: true })}
             onMouseOut={() => setHover({ hover: false })}
         >
