@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
@@ -10,7 +10,9 @@ import Suggestions from '../components/shared/Suggestions';
 import ContentStyles from '../components/styles/ContentStyles';
 import Autocomplete from '../components/shared/Autocomplete';
 import cityList from '../mocks/cityList';
-import doggies from '../mocks/doggies';
+
+import { DataStore } from '@aws-amplify/datastore';
+import { Doggie } from '../models';
 
 const HomeControls = () => {
     return (
@@ -105,6 +107,16 @@ const ArticleCard = ({ heading, text, icon }) => {
 }
 
 const Main = () => {
+    const [doggies, setDoggies] = useState( [] );
+
+    useEffect(() => {
+        const fetchDoggies = async () => {
+            const doggies = await DataStore.query(Doggie);
+            setDoggies(doggies);
+        };
+        fetchDoggies();
+    }, []);
+
     return (
         <div>
             <Hero 
