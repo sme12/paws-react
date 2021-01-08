@@ -11,7 +11,8 @@ import ContentStyles from '../components/styles/ContentStyles';
 import Autocomplete from '../components/shared/Autocomplete';
 import cityList from '../mocks/cityList';
 
-import { DataStore } from '@aws-amplify/datastore';
+import { Hub } from "@aws-amplify/core";
+import { DataStore, Predicates } from '@aws-amplify/datastore';
 import { Doggie } from '../models';
 
 const HomeControls = () => {
@@ -110,11 +111,31 @@ const Main = () => {
     const [doggies, setDoggies] = useState( [] );
 
     useEffect(() => {
-        const fetchDoggies = async () => {
-            const doggies = await DataStore.query(Doggie);
+        // TODO: Make this in a service
+
+        const fetchAndSetData = async () => {
+            const doggies = await DataStore.query(Doggie, Predicates.ALL, {
+                limit: 4
+            });
             setDoggies(doggies);
         };
-        fetchDoggies();
+
+        const removeListener = Hub.listen("datastore", async (capsule) => {
+            const { payload: { event } } = capsule;
+
+            if (event === "ready") {
+                // The actual fetch is here
+                fetchAndSetData();
+            }
+        });
+
+        DataStore.start();
+
+        fetchAndSetData();
+     
+        return () => {
+            removeListener();
+          };
     }, []);
 
     return (

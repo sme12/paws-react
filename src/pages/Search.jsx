@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
@@ -9,7 +9,10 @@ import ContentStyles from '../components/styles/ContentStyles';
 import { IMAGE_PROXY } from '../constants';
 import cityList from '../mocks/cityList';
 import ages from '../mocks/ages';
-import doggies from '../mocks/doggies';
+
+import { Hub } from "@aws-amplify/core";
+import { DataStore, Predicates } from '@aws-amplify/datastore';
+import { Doggie } from '../models';
 
 const SearchControls = () => {
     return (
@@ -120,6 +123,40 @@ const DoggieSearchResult = ({ name, age, breed, city, image }) => {
 }
 
 const Search = () => {
+    const [doggies, setDoggies] = useState( [] );
+
+    useEffect(() => {
+        // TODO: Make this in a service
+
+        console.log('search effect');
+
+        const fetchAndSetData = async () => {
+            const doggies = await DataStore.query(Doggie, Predicates.ALL, {
+                limit: 9
+            });
+            setDoggies(doggies);
+        };
+
+        const removeListener = Hub.listen("datastore", async (capsule) => {
+            console.log('listener');
+            const { payload: { event } } = capsule;
+            console.log('event', event);
+
+            if (event === "ready") {
+                // The actual fetch is here
+                fetchAndSetData();
+            }
+        });
+
+        DataStore.start();
+
+        fetchAndSetData();
+     
+        return () => {
+            removeListener();
+          };
+    }, []);
+
     return (
         <div>
             <Hero
