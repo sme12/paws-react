@@ -23,7 +23,10 @@ const HomeControls = () => {
         disabled: false
     });
     const handleCitySelect = ({ value }) => {
-        setCity(value);
+        setCity({
+            value,
+            disabled: false
+        });
     };
     const handleButtonClick = () => {
         history.push(`/search${city.value ? `?city=${city.value}` : ''}`);
