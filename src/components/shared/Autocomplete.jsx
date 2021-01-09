@@ -12,6 +12,7 @@ const AutocompleteStyles = styled.div`
         visibility: hidden;
         opacity: 0;
         position: absolute;
+        z-index: 1;
         top: 100%;
         left: 0;
         width: 100%;
@@ -44,10 +45,11 @@ const AutocompleteStyles = styled.div`
 `;
 
 
-const Autocomplete = ({ label, className, name , placeholder, required, options, activeOptionIndex}) => {
+const Autocomplete = ({ label, className, name , placeholder, required, options, value, disabled, onSelect}) => {
+    const initialOption =  value ? options.find(option => option.id === parseInt(value, 10)) : null;
     const initialState = {
         isMenuOpen: false,
-        query: '',
+        query: (initialOption && initialOption.displayName) || '',
         options: options,
         activeOptionIndex: -1
     }
@@ -77,10 +79,17 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
         };
     });
 
+    useEffect(() => {
+        if (value === 0) {
+            setState({ ...state, query: '' }); 
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
+
     const filterOptions = query => {
         return options.filter(option => {
             const regExp = new RegExp(query.toLowerCase());
-            return regExp.test(option.toLowerCase());
+            return regExp.test(option.displayName.toLowerCase());
         });
     }
 
@@ -89,6 +98,11 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
         const filteredOptions = filterOptions(newQuery);
 
         setState({ ...state, query: newQuery, options: filteredOptions, isMenuOpen: true });
+
+        if (!newQuery) {
+            onSelect({ value: 0, field: name });
+        }
+
     }
 
     const handleInputBlur = event => {
@@ -98,15 +112,12 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
         setState({ ...state, isMenuOpen: true, activeOptionIndex: -1 });
     }
 
-    const handleInputClick = event => {
-        console.log(event);
-    }
-
     const handleOptionSelect = (index) => {
         const selectedOption = state.options[index];
-        const filteredOptions = filterOptions(selectedOption);
+        const filteredOptions = filterOptions(selectedOption.displayName);
         autocompleteInput.current.focus();
-        setState({ ...state, query: selectedOption, isMenuOpen: false, options: filteredOptions });
+        setState({ ...state, query: selectedOption.displayName, isMenuOpen: false, options: filteredOptions });
+        onSelect({ value: selectedOption.id, field: name });
     }
 
     const handleUpArrow = event => {
@@ -171,7 +182,6 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
                     autoComplete='off'
                     className={className}
                     id={name}
-                    onClick={(event) => handleInputClick(event)}
                     onChange={handleChange}
                     onBlur={handleInputBlur}
                     onFocus={handleInputFocus}
@@ -180,6 +190,7 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
                     type='text'
                     required={required}
                     value={state.query}
+                    disabled={disabled}
                 />
             </FormStyles>
             <ul 
@@ -191,7 +202,7 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
                             key={`${name}-option-${index}`}
                             onClick={() => handleOptionSelect(index)}
                         >
-                            {option}
+                            {option.displayName}
                         </li>
                     ))}
             </ul>

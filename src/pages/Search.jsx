@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useUrlSearchParams } from 'use-url-search-params';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
@@ -14,9 +15,26 @@ import { Hub } from "@aws-amplify/core";
 import { DataStore, Predicates } from '@aws-amplify/datastore';
 import { Doggie } from '../models';
 
-const SearchControls = () => {
+const SearchControls = ({ filters, onChangeFilters }) => {
+
+    const [params] = useUrlSearchParams();
+
+    const [selectedFilters, setSelectedFilters] = useState(params);
+
+    const handleSelect = ({ value, field }) => {
+        if (field) {
+            const newFilters = selectedFilters;
+            newFilters[field] = value; 
+            setSelectedFilters(newFilters)
+        }
+    };
+
+    const handleApplyButtonClick = () => {
+        onChangeFilters(selectedFilters);
+    };
+
     return (
-        <div>
+        <div style={{ position: 'relative' }}>
             <Grid
                 templateColumns="repeat(12, 1fr)"
                 alignItems="center"
@@ -27,6 +45,8 @@ const SearchControls = () => {
                         placeholder="Начните вводить название"
                         name="city"
                         options={cityList}
+                        value={selectedFilters.city}
+                        onSelect={handleSelect}
                     />
                 </GridItem>
                 <GridItem column="4 / 8">
@@ -34,7 +54,9 @@ const SearchControls = () => {
                         label="Порода:"
                         placeholder="Начните вводить название"
                         name="breed"
-                        options={['Метис']}
+                        options={[{ id: 1, displayName: 'Метис' }]}
+                        value={selectedFilters.breed}
+                        onSelect={handleSelect}
                     />
                 </GridItem>
                 <GridItem column="8 / 10">
@@ -42,7 +64,12 @@ const SearchControls = () => {
                         label="Пол:"
                         placeholder="Выберите ниже"
                         name="sex"
-                        options={['Мальчик', 'Девочка']}
+                        options={[
+                            { id: 1, displayName: 'Мальчик' },
+                            { id: 2, displayName: 'Девочка' }
+                        ]}
+                        value={selectedFilters.sex}
+                        onSelect={handleSelect}
                     />
                 </GridItem>
                 <GridItem column="10 / 13">
@@ -51,9 +78,16 @@ const SearchControls = () => {
                         placeholder="Выберите ниже"
                         name="age"
                         options={ages}
+                        value={selectedFilters.age}
+                        onSelect={handleSelect}
                     />
                 </GridItem>
             </Grid>
+            <div style={{ position: 'absolute', bottom: '-88px', width: '100%', zIndex: '0' }}>
+                <div style={{maxWidth: '368px', margin: '24px auto 0 auto'}}>
+                    <SecondaryButton onClick={handleApplyButtonClick}>Применить фильтры</SecondaryButton>
+                </div>
+            </div>
         </div>
     );
 }
@@ -125,22 +159,47 @@ const DoggieSearchResult = ({ name, age, breed, city, image }) => {
 const Search = () => {
     const [doggies, setDoggies] = useState( [] );
 
+    const [filters, setFilter] = useUrlSearchParams({
+            city: 0,
+            breed: 0,
+            sex: 0,
+            age: 0
+    });
+
+    const handleChangeFilters = (selectedFilters) => {
+        setFilter(selectedFilters);
+    };
+
     useEffect(() => {
         // TODO: Make this in a service
 
-        console.log('search effect');
-
         const fetchAndSetData = async () => {
-            const doggies = await DataStore.query(Doggie, Predicates.ALL, {
-                limit: 9
-            });
+            const city = cityList.find(city => city.id === parseInt(filters.city, 10));
+            const age = ages.find(age => age.id === parseInt(filters.age, 10));
+
+            const buildPredicates = () => {
+                if (city && age) {
+                    return c => c.city('eq', city.displayName).age('eq', age.displayName);
+                }
+                if (city) {
+                    return c => c.city('eq', city.displayName);
+                }
+                if (age) {
+                    return c => c.age('eq', age.displayName);
+                }
+                return Predicates.ALL;
+            };
+ 
+            const doggies = await DataStore.query(
+                Doggie,
+                buildPredicates(),
+                { limit: 9 }
+            );
             setDoggies(doggies);
         };
 
         const removeListener = Hub.listen("datastore", async (capsule) => {
-            console.log('listener');
             const { payload: { event } } = capsule;
-            console.log('event', event);
 
             if (event === "ready") {
                 // The actual fetch is here
@@ -155,7 +214,7 @@ const Search = () => {
         return () => {
             removeListener();
           };
-    }, []);
+    }, [filters]);
 
     return (
         <div>
@@ -163,10 +222,12 @@ const Search = () => {
                 bgImg={'./hero-list.jpg'}
                 description={'Каждый из них готов стать вашим другом на всю жизнь.<br>Выбирайте мудро'}
             >
-                <SearchControls/>
+                <SearchControls
+                    filters={filters}
+                    onChangeFilters={handleChangeFilters}
+                />
             </Hero>
-            <div style={{maxWidth: '368px', margin: '24px auto 0 auto'}}>
-                <SecondaryButton>Применить фильтры</SecondaryButton>
+            <div style={{ height: '88px' }}>
             </div>
             <section style={{ paddingTop: '48px', paddingBottom: '48px'}}>
                 <ContentStyles>

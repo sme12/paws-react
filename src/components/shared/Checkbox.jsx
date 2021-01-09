@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Checkbox = ({ children, className, name }) => {
+const Checkbox = ({ children, className, name, onChange }) => {
     return (
         <label
             className={className}
@@ -13,6 +13,7 @@ const Checkbox = ({ children, className, name }) => {
                 type="checkbox"
                 id={name}
                 name={name}
+                onChange={onChange}
             />
             <span className="toggle">
                 <span className="toggler"></span>

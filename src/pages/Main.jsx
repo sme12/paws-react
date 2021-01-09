@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
@@ -16,6 +17,32 @@ import { DataStore, Predicates } from '@aws-amplify/datastore';
 import { Doggie } from '../models';
 
 const HomeControls = () => {
+    const history = useHistory();
+    const [city, setCity] = useState({
+        value: 0,
+        disabled: false
+    });
+    const handleCitySelect = ({ value }) => {
+        setCity(value);
+    };
+    const handleButtonClick = () => {
+        history.push(`/search${city.value ? `?city=${city.value}` : ''}`);
+    }
+    const handleAnyCityChange = (event) => {
+        const isChecked = event.target.checked;
+        if (isChecked) {
+            setCity({
+                value: 0,
+                disabled: true
+            })
+            return;
+        }
+        setCity({
+            value: 0,
+            disabled: false
+        })
+    }
+
     return (
         <Grid
             templateColumns="repeat(12, 1fr)"
@@ -27,17 +54,24 @@ const HomeControls = () => {
                     placeholder="Начните набирать название города"
                     name="city"
                     options={cityList}
+                    onSelect={handleCitySelect}
+                    value={city.value}
+                    disabled={city.disabled}
                 />
             </GridItem>
             <GridItem column="7 / 10" style={{marginTop: '39px'}}>
                 <Toggle
                     name="any-city"
+                    onChange={handleAnyCityChange}
                 >
                     Любой город
                 </Toggle>
             </GridItem>
             <GridItem column="10 / 13" style={{marginTop: '39px'}}>
-                <BaseButton className="home-controls-button">Давайте посмотрим!</BaseButton>
+                <BaseButton 
+                    className="home-controls-button"
+                    onClick={handleButtonClick}
+                >Давайте посмотрим!</BaseButton>
             </GridItem>
         </Grid>
     );

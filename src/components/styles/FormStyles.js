@@ -4,7 +4,7 @@ import is from 'styled-is';
 const FormStyles = styled.div`
     ${is('autocomplete')`
         position: relative;
-        z-index: 1;
+        z-index: 2;
     `};
 
     label {
