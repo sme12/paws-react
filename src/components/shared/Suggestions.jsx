@@ -3,6 +3,8 @@ import { Grid, GridItem } from '../styles/Grid';
 import { BaseLink } from './Link';
 import styled from 'styled-components';
 import { IMAGE_PROXY } from '../../constants';
+import ages from '../../dictionaries/ages';
+import breeds from '../../dictionaries/breeds';
 
 const DoggieCardStyles = styled.div`
     font-size: 1rem;
@@ -57,8 +59,8 @@ const DoggieCard = ({ name, age, breed, image }) => {
             <a href="/">
                 <div className="metaWrapper">
                     <h3>{name}</h3>
-                    <p>{age},</p>
-                    <p>{breed}</p>
+                    <p>{ages.find(a => a.id === age).displayName},</p>
+                    <p>{breeds.find(b => b.id === breed).displayName}</p>
                 </div>
                 <div className="linkWrapper">
                     <BaseLink 

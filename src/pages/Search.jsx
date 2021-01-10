@@ -8,8 +8,10 @@ import { SecondaryButton } from '../components/shared/Button';
 import Autocomplete from '../components/shared/Autocomplete';
 import ContentStyles from '../components/styles/ContentStyles';
 import { IMAGE_PROXY } from '../constants';
-import cityList from '../mocks/cityList';
-import ages from '../mocks/ages';
+import cityList from '../dictionaries/cityList';
+import ages from '../dictionaries/ages';
+import breeds from '../dictionaries/breeds';
+import sex from '../dictionaries/sex';
 
 import { Hub } from "@aws-amplify/core";
 import { DataStore, Predicates } from '@aws-amplify/datastore';
@@ -54,7 +56,7 @@ const SearchControls = ({ filters, onChangeFilters }) => {
                         label="Порода:"
                         placeholder="Начните вводить название"
                         name="breed"
-                        options={[{ id: 1, displayName: 'Метис' }]}
+                        options={breeds}
                         value={selectedFilters.breed}
                         onSelect={handleSelect}
                     />
@@ -64,10 +66,7 @@ const SearchControls = ({ filters, onChangeFilters }) => {
                         label="Пол:"
                         placeholder="Выберите ниже"
                         name="sex"
-                        options={[
-                            { id: 1, displayName: 'Мальчик' },
-                            { id: 2, displayName: 'Девочка' }
-                        ]}
+                        options={sex}
                         value={selectedFilters.sex}
                         onSelect={handleSelect}
                     />
@@ -146,9 +145,9 @@ const DoggieSearchResult = ({ name, age, breed, city, image }) => {
                 <div className="metaWrapper">
                     <h3>{name}</h3>
                     <div>
-                        <p>{age}</p>
-                        <p>{breed}</p>
-                        <p className="city">г.{city}</p>
+                        <p>{ages.find(a => a.id === age).displayName}</p>
+                        <p>{breeds.find(b => b.id === breed).displayName}</p>
+                        <p className="city">г.{cityList.find(c => c.id === city).displayName}</p>
                     </div>
                 </div>
             </a>
@@ -176,16 +175,29 @@ const Search = () => {
         const fetchAndSetData = async () => {
             const city = cityList.find(city => city.id === parseInt(filters.city, 10));
             const age = ages.find(age => age.id === parseInt(filters.age, 10));
+            const sexx = sex.find(s => s.id === parseInt(filters.sex, 10));
 
             const buildPredicates = () => {
+                if (city && age && sexx) {
+                    return c => c.city('eq', city.id).age('eq', age.id).sex('eq', sexx.id);
+                }
                 if (city && age) {
-                    return c => c.city('eq', city.displayName).age('eq', age.displayName);
+                    return c => c.city('eq', city.id).age('eq', age.id);
+                }
+                if (city && sexx) {
+                    return c => c.city('eq', city.id).sex('eq', sexx.id);
+                }
+                if (age && sexx) {
+                    return c => c.age('eq', age.id).sex('eq', sexx.id);
+                }
+                if (sexx) {
+                    return c => c.sex('eq', sexx.id);
                 }
                 if (city) {
-                    return c => c.city('eq', city.displayName);
+                    return c => c.city('eq', city.id);
                 }
                 if (age) {
-                    return c => c.age('eq', age.displayName);
+                    return c => c.age('eq', age.id);
                 }
                 return Predicates.ALL;
             };

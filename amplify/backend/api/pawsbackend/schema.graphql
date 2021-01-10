@@ -1,8 +1,23 @@
+type Shelter @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  phone: String
+  email: String
+  vk: String
+  facebook: String
+  instagram: String
+  city: Int
+}
+
 type Doggie @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
-  age: String
-  breed: String
-  city: String
+  age: Int
+  breed: Int
+  city: Int
+  sex: Int
   image: String
+  description: String
+  shelter: Shelter @connection
 }
+ 
