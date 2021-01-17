@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Hero from '../components/Hero';
@@ -11,10 +11,6 @@ import Suggestions from '../components/shared/Suggestions';
 import ContentStyles from '../components/styles/ContentStyles';
 import Autocomplete from '../components/shared/Autocomplete';
 import cityList from '../mocks/cityList';
-
-import { Hub } from "@aws-amplify/core";
-import { DataStore, Predicates } from '@aws-amplify/datastore';
-import { Doggie } from '../models';
 
 const HomeControls = () => {
     const history = useHistory();
@@ -145,36 +141,6 @@ const ArticleCard = ({ heading, text, icon }) => {
 }
 
 const Main = () => {
-    const [doggies, setDoggies] = useState( [] );
-
-    useEffect(() => {
-        // TODO: Make this in a service
-
-        const fetchAndSetData = async () => {
-            const doggies = await DataStore.query(Doggie, Predicates.ALL, {
-                limit: 4
-            });
-            setDoggies(doggies);
-        };
-
-        const removeListener = Hub.listen("datastore", async (capsule) => {
-            const { payload: { event } } = capsule;
-
-            if (event === "ready") {
-                // The actual fetch is here
-                fetchAndSetData();
-            }
-        });
-
-        DataStore.start();
-
-        fetchAndSetData();
-     
-        return () => {
-            removeListener();
-          };
-    }, []);
-
     return (
         <div>
             <Hero 
@@ -189,7 +155,7 @@ const Main = () => {
                         Или посмотрите среди этих отличных ребят, которые прямо сейчас ищут свой дом
                     </p>
                     <div style={{marginBottom: '48px'}}>
-                        <Suggestions doggies={doggies} />
+                        <Suggestions />
                     </div>
                     <Grid
                         templateColumns="repeat(3, 1fr)"

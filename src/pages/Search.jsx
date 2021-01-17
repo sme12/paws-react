@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useUrlSearchParams } from 'use-url-search-params';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
@@ -12,10 +12,6 @@ import cityList from '../dictionaries/cityList';
 import ages from '../dictionaries/ages';
 import breeds from '../dictionaries/breeds';
 import sex from '../dictionaries/sex';
-
-import { Hub } from "@aws-amplify/core";
-import { DataStore, Predicates } from '@aws-amplify/datastore';
-import { Doggie } from '../models';
 
 const SearchControls = ({ filters, onChangeFilters }) => {
 
@@ -156,8 +152,6 @@ const DoggieSearchResult = ({ name, age, breed, city, image }) => {
 }
 
 const Search = () => {
-    const [doggies, setDoggies] = useState( [] );
-
     const [filters, setFilter] = useUrlSearchParams({
             city: 0,
             breed: 0,
@@ -169,64 +163,7 @@ const Search = () => {
         setFilter(selectedFilters);
     };
 
-    useEffect(() => {
-        // TODO: Make this in a service
-
-        const fetchAndSetData = async () => {
-            const city = cityList.find(city => city.id === parseInt(filters.city, 10));
-            const age = ages.find(age => age.id === parseInt(filters.age, 10));
-            const sexx = sex.find(s => s.id === parseInt(filters.sex, 10));
-
-            const buildPredicates = () => {
-                if (city && age && sexx) {
-                    return c => c.city('eq', city.id).age('eq', age.id).sex('eq', sexx.id);
-                }
-                if (city && age) {
-                    return c => c.city('eq', city.id).age('eq', age.id);
-                }
-                if (city && sexx) {
-                    return c => c.city('eq', city.id).sex('eq', sexx.id);
-                }
-                if (age && sexx) {
-                    return c => c.age('eq', age.id).sex('eq', sexx.id);
-                }
-                if (sexx) {
-                    return c => c.sex('eq', sexx.id);
-                }
-                if (city) {
-                    return c => c.city('eq', city.id);
-                }
-                if (age) {
-                    return c => c.age('eq', age.id);
-                }
-                return Predicates.ALL;
-            };
- 
-            const doggies = await DataStore.query(
-                Doggie,
-                buildPredicates(),
-                { limit: 9 }
-            );
-            setDoggies(doggies);
-        };
-
-        const removeListener = Hub.listen("datastore", async (capsule) => {
-            const { payload: { event } } = capsule;
-
-            if (event === "ready") {
-                // The actual fetch is here
-                fetchAndSetData();
-            }
-        });
-
-        DataStore.start();
-
-        fetchAndSetData();
-     
-        return () => {
-            removeListener();
-          };
-    }, [filters]);
+    const doggies = []; // TODO: make it dynamic state
 
     return (
         <div>

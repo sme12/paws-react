@@ -6,6 +6,23 @@ import { IMAGE_PROXY } from '../../constants';
 import ages from '../../dictionaries/ages';
 import breeds from '../../dictionaries/breeds';
 
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
+
+const listDoggies = gql`
+  query listDoggies {
+    listDoggies {
+      items {
+        id
+        name
+        age
+        breed
+        image
+      }
+    }
+  }
+`
+
 const DoggieCardStyles = styled.div`
     font-size: 1rem;
     padding: 8px;
@@ -92,4 +109,11 @@ const Suggestions = ({ doggies }) => {
     );
 };
 
-export default Suggestions;
+export default graphql(listDoggies, {
+    options: {
+      fetchPolicy: 'cache-and-network'
+    },
+    props: props => ({
+      doggies: props.data.listDoggies ? props.data.listDoggies.items : []
+    })
+  })(Suggestions);
