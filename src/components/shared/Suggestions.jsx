@@ -6,11 +6,10 @@ import { IMAGE_PROXY } from '../../constants';
 import ages from '../../dictionaries/ages';
 import breeds from '../../dictionaries/breeds';
 
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { useQuery, gql } from '@apollo/client';
 
-const listDoggies = gql`
-  query listDoggies {
+const LIST_DOGGIES = gql`
+  query {
     listDoggies {
       items {
         id
@@ -21,7 +20,7 @@ const listDoggies = gql`
       }
     }
   }
-`
+`;
 
 const DoggieCardStyles = styled.div`
     font-size: 1rem;
@@ -89,13 +88,17 @@ const DoggieCard = ({ name, age, breed, image }) => {
     )
 }
 
-const Suggestions = ({ doggies }) => {
+const Suggestions = () => {
+    const { loading, error, data } = useQuery(LIST_DOGGIES);
+
+    if (error) return 'Error :(';
     return (
+        loading ? 'Загружаем хвосты...' :
         <Grid
             templateColumns="repeat(4, 1fr)"
             alignItems="center"
         >
-            {doggies.map((doggie, index) => (
+            {data.listDoggies.items.map((doggie, index) => (
                     <GridItem column="auto" justifySelf="left" fullWidth key={index}>
                         <DoggieCard 
                             name={doggie.name}
@@ -109,11 +112,4 @@ const Suggestions = ({ doggies }) => {
     );
 };
 
-export default graphql(listDoggies, {
-    options: {
-      fetchPolicy: 'cache-and-network'
-    },
-    props: props => ({
-      doggies: props.data.listDoggies ? props.data.listDoggies.items : []
-    })
-  })(Suggestions);
+export default Suggestions;
