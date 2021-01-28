@@ -1,20 +1,8 @@
-const ages = [
-    {
-        id: 1,
-        displayName: 'Малыш'
-    },
-    {
-        id: 2,
-        displayName: 'Щенок'
-    },
-    {
-        id: 3,
-        displayName: 'Взрослый'
-    },
-    {
-        id: 4,
-        displayName: 'Пожилой'
-    }
-]
+const ages = {
+    'PUP': 'Малыш',
+    'YOUNG': 'Щенок',
+    'ADULT': 'Молодой',
+    'SENIOR': 'Пожилой'
+}
 
 export default ages;

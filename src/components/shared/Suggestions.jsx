@@ -17,6 +17,9 @@ const LIST_DOGGIES = gql`
         age
         breed
         image
+        shelter {
+            name
+        }
       }
     }
   }
@@ -75,8 +78,8 @@ const DoggieCard = ({ name, age, breed, image }) => {
             <a href="/">
                 <div className="metaWrapper">
                     <h3>{name}</h3>
-                    <p>{ages.find(a => a.id === age).displayName},</p>
-                    <p>{breeds.find(b => b.id === breed).displayName}</p>
+                    <p>{ages[age]},</p>
+                    <p>{breeds[breed]}</p>
                 </div>
                 <div className="linkWrapper">
                     <BaseLink 

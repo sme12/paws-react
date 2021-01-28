@@ -46,10 +46,10 @@ const AutocompleteStyles = styled.div`
 
 
 const Autocomplete = ({ label, className, name , placeholder, required, options, value, disabled, onSelect}) => {
-    const initialOption =  value ? options.find(option => option.id === parseInt(value, 10)) : null;
+    const initialOption =  value || null;
     const initialState = {
         isMenuOpen: false,
-        query: (initialOption && initialOption.displayName) || '',
+        query: (initialOption && options[initialOption]) || '',
         options: options,
         activeOptionIndex: -1
     }
@@ -87,9 +87,9 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
     }, [value]);
 
     const filterOptions = query => {
-        return options.filter(option => {
+        return Object.values(options).filter(option => {
             const regExp = new RegExp(query.toLowerCase());
-            return regExp.test(option.displayName.toLowerCase());
+            return regExp.test(option.toLowerCase());
         });
     }
 
@@ -100,7 +100,7 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
         setState({ ...state, query: newQuery, options: filteredOptions, isMenuOpen: true });
 
         if (!newQuery) {
-            onSelect({ value: 0, field: name });
+            onSelect({ value: '', field: name });
         }
 
     }
@@ -113,11 +113,11 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
     }
 
     const handleOptionSelect = (index) => {
-        const selectedOption = state.options[index];
-        const filteredOptions = filterOptions(selectedOption.displayName);
+        const selectedOption = Object.values(state.options)[index];
+        const filteredOptions = filterOptions(selectedOption);
         autocompleteInput.current.focus();
-        setState({ ...state, query: selectedOption.displayName, isMenuOpen: false, options: filteredOptions });
-        onSelect({ value: selectedOption.id, field: name });
+        setState({ ...state, query: selectedOption, isMenuOpen: false, options: filteredOptions });
+        onSelect({ value: Object.keys(state.options)[index], field: name });
     }
 
     const handleUpArrow = event => {
@@ -196,13 +196,13 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
             <ul 
                 className={`options ${state.isMenuOpen ? 'is-visible': ''}`}
             >
-                {state.options.map((option, index) => (
+                {Object.values(state.options).map((option, index) => (
                         <li
                             className={`option ${state.activeOptionIndex === index ? 'is-active' : ''}`}
                             key={`${name}-option-${index}`}
                             onClick={() => handleOptionSelect(index)}
                         >
-                            {option.displayName}
+                            {option}
                         </li>
                     ))}
             </ul>

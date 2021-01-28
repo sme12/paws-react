@@ -10,12 +10,12 @@ import { Toggle } from '../components/shared/Checkbox';
 import Suggestions from '../components/shared/Suggestions';
 import ContentStyles from '../components/styles/ContentStyles';
 import Autocomplete from '../components/shared/Autocomplete';
-import cityList from '../mocks/cityList';
+import cityList from '../dictionaries/cityList';
 
 const HomeControls = () => {
     const history = useHistory();
     const [city, setCity] = useState({
-        value: 0,
+        value: '',
         disabled: false
     });
     const handleCitySelect = ({ value }) => {
@@ -31,13 +31,13 @@ const HomeControls = () => {
         const isChecked = event.target.checked;
         if (isChecked) {
             setCity({
-                value: 0,
+                value: '',
                 disabled: true
             })
             return;
         }
         setCity({
-            value: 0,
+            value: '',
             disabled: false
         })
     }

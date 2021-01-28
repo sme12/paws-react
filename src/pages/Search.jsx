@@ -153,10 +153,10 @@ const DoggieSearchResult = ({ name, age, breed, city, image }) => {
 
 const Search = () => {
     const [filters, setFilter] = useUrlSearchParams({
-            city: 0,
-            breed: 0,
-            sex: 0,
-            age: 0
+            city: '',
+            breed: '',
+            sex: '',
+            age: ''
     });
 
     const handleChangeFilters = (selectedFilters) => {

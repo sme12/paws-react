@@ -1,12 +1,7 @@
-const cityList = [
-    {
-        id: 1,
-        displayName: 'Санкт-Петербург'
-    },
-    {
-        id: 2,
-        displayName: 'Москва'
-    }
-]
+const cityList = {
+    'SPB': 'Санкт-Петербург',
+    'MSK': 'Москва',
+    'EKB': 'Екатеринбург',
+}
 
 export default cityList;

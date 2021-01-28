@@ -1,12 +1,6 @@
-const sex = [
-    {
-        id: 1,
-        displayName: 'Мальчик'
-    },
-    {
-        id: 2,
-        displayName: 'Девочка'
-    }
-]
+const sex = {
+    'MALE': 'Мальчик',
+    'FEMALE': 'Девочка'
+}
 
 export default sex;

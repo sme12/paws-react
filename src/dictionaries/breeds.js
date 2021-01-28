@@ -1,8 +1,5 @@
-const breeds = [
-    {
-        id: 1,
-        displayName: 'Метис'
-    }
-]
+const breeds = {
+    'MIX': 'Метис'
+}
 
 export default breeds;
