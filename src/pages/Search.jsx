@@ -215,7 +215,6 @@ const Search = () => {
     });
 
     return (
-        loading ? 'Загружаем хвосты...' :
         <div>
             <Hero
                 bgImg={'./hero-list.jpg'}
@@ -229,27 +228,29 @@ const Search = () => {
             <div style={{ height: '88px' }}>
             </div>
             <section style={{ paddingTop: '48px', paddingBottom: '48px'}}>
-                <ContentStyles>
-                    <p style={{marginBottom: '24px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold'}}>
-                        Вот кого мы подобрали по вашим пожеланиям
-                    </p>
-                    <Grid
-                        templateColumns="repeat(3, 1fr)"
-                        alignItems="center"
-                    >
-                        {data.listDoggies.items.map((doggie, index) => (
-                            <GridItem row="auto" fullWidth key={index}>
-                                <DoggieSearchResult
-                                    name={doggie.name}
-                                    age={doggie.age}
-                                    breed={doggie.breed}
-                                    city={doggie.city}
-                                    image={doggie.image}
-                                />
-                            </GridItem>
-                        ))}
-                    </Grid>
-                </ContentStyles>
+                {loading ? 'Загружаем хвосты...' : 
+                    <ContentStyles>
+                        <p style={{marginBottom: '24px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold'}}>
+                            Вот кого мы подобрали по вашим пожеланиям
+                        </p>
+                        <Grid
+                            templateColumns="repeat(3, 1fr)"
+                            alignItems="center"
+                        >
+                            {data.listDoggies.items.map((doggie, index) => (
+                                <GridItem row="auto" fullWidth key={index}>
+                                    <DoggieSearchResult
+                                        name={doggie.name}
+                                        age={doggie.age}
+                                        breed={doggie.breed}
+                                        city={doggie.city}
+                                        image={doggie.image}
+                                    />
+                                </GridItem>
+                            ))}
+                        </Grid>
+                    </ContentStyles>
+                }
             </section>
             <Footer />
         </div>
