@@ -87,10 +87,20 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
     }, [value]);
 
     const filterOptions = query => {
-        return Object.values(options).filter(option => {
+        const values = Object.values(options).filter(option => {
             const regExp = new RegExp(query.toLowerCase());
             return regExp.test(option.toLowerCase());
         });
+        const filteredOptions = values
+            .reduce((acc, value) => (
+                Object.assign(
+                    acc,
+                    {
+                        [Object.keys(options).find(key => options[key] === value)]: value
+                    }
+                )
+            ), {});
+        return filteredOptions;
     }
 
     const handleChange = event => {

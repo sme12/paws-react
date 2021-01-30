@@ -25,7 +25,19 @@ const authLink = new ApolloLink((operation, forward) => {
 });
 const client = new ApolloClient({
     link: concat(authLink, httpLink),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache({
+        typePolicies: {
+            Shelter: {
+                fields: {
+                    listObj: {
+                        read(_, { readField }) {
+                            return {[readField('id')]: readField('name')};
+                        }
+                    }
+                }
+            }
+        }
+    })
 });
 
 ReactDOM.render(

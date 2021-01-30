@@ -13,11 +13,45 @@ import ages from '../dictionaries/ages';
 import breeds from '../dictionaries/breeds';
 import sex from '../dictionaries/sex';
 
+import { useQuery, gql } from '@apollo/client';
+
+const LIST_SHELTERS = gql`
+  query ListShelters {
+    listShelters {
+      items {
+        id
+        name
+        city
+        listObj @client
+      }
+    }
+  }
+`;
+
+const LIST_DOGGIES = gql`
+  query ListDoggies(
+      $filters: ModelDoggieFilterInput
+    ) {
+    listDoggies(filter: $filters) {
+      items {
+        id
+        name
+        age
+        breed
+        image
+        city
+      }
+    }
+  }
+`;
+
 const SearchControls = ({ filters, onChangeFilters }) => {
 
     const [params] = useUrlSearchParams();
 
     const [selectedFilters, setSelectedFilters] = useState(params);
+
+    const { loading, error, data } = useQuery(LIST_SHELTERS);
 
     const handleSelect = ({ value, field }) => {
         if (field) {
@@ -31,7 +65,11 @@ const SearchControls = ({ filters, onChangeFilters }) => {
         onChangeFilters(selectedFilters);
     };
 
+    const sheltersList = data && data.listShelters.items
+        .reduce((acc, item) => Object.assign(acc, item.listObj), {});
+
     return (
+        loading ? 'Загружаем фильтры...' :
         <div style={{ position: 'relative' }}>
             <Grid
                 templateColumns="repeat(12, 1fr)"
@@ -49,11 +87,11 @@ const SearchControls = ({ filters, onChangeFilters }) => {
                 </GridItem>
                 <GridItem column="4 / 8">
                     <Autocomplete 
-                        label="Порода:"
+                        label="Приют:"
                         placeholder="Начните вводить название"
-                        name="breed"
-                        options={breeds}
-                        value={selectedFilters.breed}
+                        name="shelterID"
+                        options={sheltersList}
+                        value={selectedFilters.shelterID}
                         onSelect={handleSelect}
                     />
                 </GridItem>
@@ -141,9 +179,9 @@ const DoggieSearchResult = ({ name, age, breed, city, image }) => {
                 <div className="metaWrapper">
                     <h3>{name}</h3>
                     <div>
-                        <p>{ages.find(a => a.id === age).displayName}</p>
-                        <p>{breeds.find(b => b.id === breed).displayName}</p>
-                        <p className="city">г.{cityList.find(c => c.id === city).displayName}</p>
+                        <p>{ages[age]}</p>
+                        <p>{breeds[breed]}</p>
+                        <p className="city">г.{cityList[city]}</p>
                     </div>
                 </div>
             </a>
@@ -154,7 +192,7 @@ const DoggieSearchResult = ({ name, age, breed, city, image }) => {
 const Search = () => {
     const [filters, setFilter] = useUrlSearchParams({
             city: '',
-            breed: '',
+            shelterID: '',
             sex: '',
             age: ''
     });
@@ -163,9 +201,21 @@ const Search = () => {
         setFilter(selectedFilters);
     };
 
-    const doggies = []; // TODO: make it dynamic state
+    const queryFilters = Object.keys(filters).reduce((acc, key) => {
+        if (filters[key]) {
+            return Object.assign(acc, {[key]: {eq: filters[key]}});
+        }
+        return acc
+    }, {});
+
+    const { loading, error, data } = useQuery(LIST_DOGGIES, {
+        variables: {
+            filters: Object.keys(queryFilters).length > 0 ? queryFilters : null
+        }
+    });
 
     return (
+        loading ? 'Загружаем хвосты...' :
         <div>
             <Hero
                 bgImg={'./hero-list.jpg'}
@@ -187,7 +237,7 @@ const Search = () => {
                         templateColumns="repeat(3, 1fr)"
                         alignItems="center"
                     >
-                        {doggies.map((doggie, index) => (
+                        {data.listDoggies.items.map((doggie, index) => (
                             <GridItem row="auto" fullWidth key={index}>
                                 <DoggieSearchResult
                                     name={doggie.name}
