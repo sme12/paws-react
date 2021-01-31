@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useUrlSearchParams } from 'use-url-search-params';
 import Hero from '../components/Hero';
