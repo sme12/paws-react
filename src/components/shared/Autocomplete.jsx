@@ -146,7 +146,7 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
         event.preventDefault();
         const setActiveIndex = () => {
             const currentIndex = state.activeOptionIndex;
-            if (currentIndex < state.options.length - 1) {
+            if (currentIndex < Object.values(options).length - 1) {
                 return currentIndex + 1;
             }
             return currentIndex;
