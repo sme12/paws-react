@@ -45,7 +45,7 @@ const AutocompleteStyles = styled.div`
 `;
 
 
-const Autocomplete = ({ label, className, name , placeholder, required, options, value, disabled, onSelect}) => {
+const Autocomplete = ({ label, className, name , placeholder, required, options, value, disabled, onSelect, register, invalid, errorMessage}) => {
     const initialOption =  value || null;
     const initialState = {
         isMenuOpen: false,
@@ -65,7 +65,7 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
     const [state, setState] = useState({ ...initialState });
 
     const ref = React.createRef();
-    const autocompleteInput = React.createRef();
+    // const autocompleteInput = React.createRef();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -80,13 +80,16 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
     });
 
     useEffect(() => {
-        if (value === 0) {
-            setState({ ...state, query: '' }); 
+        if (value === '') {
+            setState({ ...state, options: options, query: '' }); 
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
     const filterOptions = query => {
+        if (!query) {
+            return options;
+        }
         const values = Object.values(options).filter(option => {
             const regExp = new RegExp(query.toLowerCase());
             return regExp.test(option.toLowerCase());
@@ -107,6 +110,12 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
         const newQuery = event.target.value;
         const filteredOptions = filterOptions(newQuery);
 
+        if (Object.keys(filteredOptions).length === 1 && newQuery === Object.values(filteredOptions)[0]) {
+            setState({ ...state, query: newQuery, options: filteredOptions, isMenuOpen: false });
+            onSelect({ value: Object.keys(filteredOptions)[0], field: name });
+            return;
+        }
+
         setState({ ...state, query: newQuery, options: filteredOptions, isMenuOpen: true });
 
         if (!newQuery) {
@@ -115,17 +124,23 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
 
     }
 
-    const handleInputBlur = event => {
+    const handleInputBlur = () => {
+        // setState({ ...state, isMenuOpen: false });
     }
 
-    const handleInputFocus = event => {
+    const handleInputFocus = () => {
+        if (!Object.keys(state.options).length || (Object.keys(state.options).length === 1 && state.query === Object.values(state.options)[0])) {
+            return;
+        }
         setState({ ...state, isMenuOpen: true, activeOptionIndex: -1 });
     }
 
     const handleOptionSelect = (index) => {
+        if (index < 0) {
+            return;
+        }
         const selectedOption = Object.values(state.options)[index];
         const filteredOptions = filterOptions(selectedOption);
-        autocompleteInput.current.focus();
         setState({ ...state, query: selectedOption, isMenuOpen: false, options: filteredOptions });
         onSelect({ value: Object.keys(state.options)[index], field: name });
     }
@@ -188,7 +203,7 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
             <FormStyles autocomplete>
                 <label htmlFor={name}>{label}</label>
                 <input
-                    ref={autocompleteInput} 
+                    ref={register}
                     autoComplete='off'
                     className={className}
                     id={name}
@@ -198,15 +213,16 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
                     name={name}
                     placeholder={placeholder}
                     type='text'
-                    required={required}
                     value={state.query}
                     disabled={disabled}
+                    required={required}
                 />
+                {invalid && errorMessage}
             </FormStyles>
             <ul 
                 className={`options ${state.isMenuOpen ? 'is-visible': ''}`}
             >
-                {Object.values(state.options).map((option, index) => (
+                {state.options && Object.values(state.options).map((option, index) => (
                         <li
                             className={`option ${state.activeOptionIndex === index ? 'is-active' : ''}`}
                             key={`${name}-option-${index}`}

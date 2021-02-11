@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
@@ -18,15 +19,28 @@ const HomeControls = () => {
         value: '',
         disabled: false
     });
+    const { register, errors, handleSubmit, setError } = useForm({
+        shouldFocusError: false,
+    });
+
     const handleCitySelect = ({ value }) => {
         setCity({
             value,
             disabled: false
         });
     };
-    const handleButtonClick = () => {
+    const onSubmit = (data) => {
+        if (!city.disabled && !Object.values(cityList).some(c => c === data.city)) {
+            setError('city', {
+                type: 'manual',
+                message: 'Неправильный город'
+            });
+            return;
+        }
+
         history.push(`/search${city.value ? `?city=${city.value}` : ''}`);
     }
+
     const handleAnyCityChange = (event) => {
         const isChecked = event.target.checked;
         if (isChecked) {
@@ -43,36 +57,40 @@ const HomeControls = () => {
     }
 
     return (
-        <Grid
-            templateColumns="repeat(12, 1fr)"
-            alignItems="center"
-        >
-            <GridItem column="1 / 7">
-                <Autocomplete 
-                    label="Я ищу собаку в городе:"
-                    placeholder="Начните набирать название города"
-                    name="city"
-                    options={cityList}
-                    onSelect={handleCitySelect}
-                    value={city.value}
-                    disabled={city.disabled}
-                />
-            </GridItem>
-            <GridItem column="7 / 10" style={{marginTop: '39px'}}>
-                <Toggle
-                    name="any-city"
-                    onChange={handleAnyCityChange}
-                >
-                    Любой город
-                </Toggle>
-            </GridItem>
-            <GridItem column="10 / 13" style={{marginTop: '39px'}}>
-                <BaseButton 
-                    className="home-controls-button"
-                    onClick={handleButtonClick}
-                >Давайте посмотрим!</BaseButton>
-            </GridItem>
-        </Grid>
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
+            <Grid
+                templateColumns="repeat(12, 1fr)"
+                alignItems="center"
+            >
+                <GridItem column="1 / 7">
+                    <Autocomplete 
+                        label="Я ищу собаку в городе:"
+                        placeholder="Начните набирать название города"
+                        name="city"
+                        options={cityList}
+                        onSelect={handleCitySelect}
+                        value={city.value}
+                        register={register()}
+                        disabled={city.disabled}
+                        invalid={errors.city}
+                        errorMessage={errors.city && errors.city.message}
+                    />
+                </GridItem>
+                <GridItem column="7 / 10" style={{marginTop: '39px'}}>
+                    <Toggle
+                        name="any-city"
+                        onChange={handleAnyCityChange}
+                    >
+                        Любой город
+                    </Toggle>
+                </GridItem>
+                <GridItem column="10 / 13" style={{marginTop: '39px'}}>
+                    <BaseButton 
+                        className="home-controls-button"
+                    >Давайте посмотрим!</BaseButton>
+                </GridItem>
+            </Grid>
+        </form>
     );
 }
 
