@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import FormStyles from '../styles/FormStyles';
 
 const AutocompleteStyles = styled.div`
-    & {
+    .wrapper {
         position: relative;
     }
     
@@ -41,6 +41,12 @@ const AutocompleteStyles = styled.div`
     .option.is-active {
         background-color: #ddd;
         color: var(--dark-grey);
+    }
+
+    .error-message {
+        height: 18px;
+        padding-top: 8px;
+        color: var(--danger);
     }
 `;
 
@@ -136,9 +142,7 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
     }
 
     const handleOptionSelect = (index) => {
-        if (index < 0) {
-            return;
-        }
+        console.log(index);
         const selectedOption = Object.values(state.options)[index];
         const filteredOptions = filterOptions(selectedOption);
         setState({ ...state, query: selectedOption, isMenuOpen: false, options: filteredOptions });
@@ -200,38 +204,41 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
 
     return (
         <AutocompleteStyles ref={ref} onKeyDown={handleKeyDown}>
-            <FormStyles autocomplete>
-                <label htmlFor={name}>{label}</label>
-                <input
-                    ref={register}
-                    autoComplete='off'
-                    className={className}
-                    id={name}
-                    onChange={handleChange}
-                    onBlur={handleInputBlur}
-                    onFocus={handleInputFocus}
-                    name={name}
-                    placeholder={placeholder}
-                    type='text'
-                    value={state.query}
-                    disabled={disabled}
-                    required={required}
-                />
-                {invalid && errorMessage}
-            </FormStyles>
-            <ul 
-                className={`options ${state.isMenuOpen ? 'is-visible': ''}`}
-            >
-                {state.options && Object.values(state.options).map((option, index) => (
-                        <li
-                            className={`option ${state.activeOptionIndex === index ? 'is-active' : ''}`}
-                            key={`${name}-option-${index}`}
-                            onClick={() => handleOptionSelect(index)}
-                        >
-                            {option}
-                        </li>
-                    ))}
-            </ul>
+            <div className="wrapper">
+                <FormStyles autocomplete invalid={invalid}>
+                    <label htmlFor={name}>{label}</label>
+                    <input
+                        ref={register}
+                        autoComplete='off'
+                        className={className}
+                        id={name}
+                        onChange={handleChange}
+                        onBlur={handleInputBlur}
+                        onFocus={handleInputFocus}
+                        name={name}
+                        placeholder={placeholder}
+                        type='text'
+                        value={state.query}
+                        disabled={disabled}
+                        required={required}
+                    />
+                </FormStyles>
+                
+                <ul 
+                    className={`options ${state.isMenuOpen ? 'is-visible': ''}`}
+                >
+                    {state.options && Object.values(state.options).map((option, index) => (
+                            <li
+                                className={`option ${state.activeOptionIndex === index ? 'is-active' : ''}`}
+                                key={`${name}-option-${index}`}
+                                onClick={() => handleOptionSelect(index)}
+                            >
+                                {option}
+                            </li>
+                        ))}
+                </ul>
+            </div>
+            <p className="error-message">{invalid && errorMessage}</p>
         </AutocompleteStyles>
     );
 };

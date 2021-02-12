@@ -19,11 +19,12 @@ const HomeControls = () => {
         value: '',
         disabled: false
     });
-    const { register, errors, handleSubmit, setError } = useForm({
+    const { register, errors, handleSubmit, setError, clearErrors } = useForm({
         shouldFocusError: false,
     });
 
     const handleCitySelect = ({ value }) => {
+        clearErrors(['city']);
         setCity({
             value,
             disabled: false
@@ -33,7 +34,7 @@ const HomeControls = () => {
         if (!city.disabled && !Object.values(cityList).some(c => c === data.city)) {
             setError('city', {
                 type: 'manual',
-                message: 'Неправильный город'
+                message: 'В нашей базе нет такого варианта'
             });
             return;
         }
@@ -44,6 +45,7 @@ const HomeControls = () => {
     const handleAnyCityChange = (event) => {
         const isChecked = event.target.checked;
         if (isChecked) {
+            clearErrors(['city']);
             setCity({
                 value: '',
                 disabled: true
@@ -76,7 +78,7 @@ const HomeControls = () => {
                         errorMessage={errors.city && errors.city.message}
                     />
                 </GridItem>
-                <GridItem column="7 / 10" style={{marginTop: '39px'}}>
+                <GridItem column="7 / 10" style={{ marginTop: '39px', paddingBottom: '18px' }}>
                     <Toggle
                         name="any-city"
                         onChange={handleAnyCityChange}
@@ -84,7 +86,7 @@ const HomeControls = () => {
                         Любой город
                     </Toggle>
                 </GridItem>
-                <GridItem column="10 / 13" style={{marginTop: '39px'}}>
+                <GridItem column="10 / 13" style={{ marginTop: '39px', paddingBottom: '18px' }}>
                     <BaseButton 
                         className="home-controls-button"
                     >Давайте посмотрим!</BaseButton>

@@ -23,7 +23,7 @@ const Footer = () => {
                         alignItems="center"
                     >
                         <GridItem column="auto" justifySelf="left">
-                            <p>&copy; PAWS Studio 2020</p>
+                            <p>&copy; PAWS Studio 2021</p>
                         </GridItem>
                         <GridItem column="auto" justifySelf="center">
                             <p>

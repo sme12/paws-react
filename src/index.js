@@ -12,6 +12,7 @@ import {
     ApolloLink,
     concat
 } from '@apollo/client';
+import ScrollToTop from './components/shared/ScrollToTop';
 
 const httpLink = new HttpLink({ uri: AppSyncConfig.aws_appsync_graphqlEndpoint });
 const authLink = new ApolloLink((operation, forward) => {
@@ -42,6 +43,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <Router>
+        <ScrollToTop />
         <ApolloProvider client={client}>
             <App />
         </ApolloProvider>
