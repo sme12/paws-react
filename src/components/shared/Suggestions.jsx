@@ -67,7 +67,7 @@ const DoggieCardStyles = styled.div`
     }
 `;
 
-const DoggieCard = ({ name, age, breed, image }) => {
+const DoggieCard = ({ name, age, breed, image, id }) => {
     const [state, setHover] = useState({ hover: false });
     return (
         <DoggieCardStyles 
@@ -75,7 +75,7 @@ const DoggieCard = ({ name, age, breed, image }) => {
             onMouseOver={() => setHover({ hover: true })}
             onMouseOut={() => setHover({ hover: false })}
         >
-            <a href="/">
+            <a href={`/profile/${id}`}>
                 <div className="metaWrapper">
                     <h3>{name}</h3>
                     <p>{ages[age]},</p>
@@ -108,6 +108,7 @@ const Suggestions = () => {
                             age={doggie.age}
                             breed={doggie.breed}
                             image={doggie.image}
+                            id={doggie.id}
                         />
                     </GridItem>
             ))}

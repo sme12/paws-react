@@ -90,7 +90,7 @@ const Header = () => {
                         </GridItem>
                         <GridItem column="6 / 8" justifySelf="center">
                             <Link to="/">
-                                <img src="./logo.svg" alt="Paws"/>
+                                <img src="/logo.svg" alt="Paws"/>
                             </Link>
                         </GridItem>
                         <GridItem column="8 / 13" justifySelf="right">

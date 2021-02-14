@@ -179,10 +179,10 @@ const DoggieSearchResultStyles = styled.div`
     }
 `;
 
-const DoggieSearchResult = ({ name, age, breed, city, image }) => {
+const DoggieSearchResult = ({ name, age, breed, city, image, id }) => {
     return (
         <DoggieSearchResultStyles>
-            <a href="/">
+            <a href={`/profile/${id}`}>
                 <div className="imageWrapper">
                     <img 
                         src={`${IMAGE_PROXY.url}fill/144/144/ce/0/plain/${IMAGE_PROXY.storage}${image}`}
@@ -272,6 +272,7 @@ const Search = () => {
                                                 breed={doggie.breed}
                                                 city={doggie.city}
                                                 image={doggie.image}
+                                                id={doggie.id}
                                             />
                                         </GridItem>
                                     )))}
