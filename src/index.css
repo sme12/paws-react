@@ -14,6 +14,7 @@
   --dark-grey: #191b1f;
   --light-grey: #eee;
   --silver-grey: #c4c4c4;
+  --alto-grey: #ddd;
   --bg-grey: #1f2126;
   --danger: #d80101;
 
@@ -60,4 +61,19 @@ h1, h2, h3, h4, h5, h6, p {
 	height: 1px !important; 
 	width: 1px !important; 
 	overflow: hidden;
+}
+
+.u-clear-button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
 }

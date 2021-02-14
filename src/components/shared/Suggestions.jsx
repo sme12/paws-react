@@ -10,7 +10,7 @@ import { useQuery, gql } from '@apollo/client';
 
 const LIST_DOGGIES = gql`
   query {
-    listDoggies {
+    listDoggies(limit: 4) {
       items {
         id
         name

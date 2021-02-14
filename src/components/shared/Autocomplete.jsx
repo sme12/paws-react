@@ -142,7 +142,6 @@ const Autocomplete = ({ label, className, name , placeholder, required, options,
     }
 
     const handleOptionSelect = (index) => {
-        console.log(index);
         const selectedOption = Object.values(state.options)[index];
         const filteredOptions = filterOptions(selectedOption);
         setState({ ...state, query: selectedOption, isMenuOpen: false, options: filteredOptions });

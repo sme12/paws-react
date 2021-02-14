@@ -13,10 +13,9 @@ const Link = ({ children, className, href }) => {
         ) : (
             <span
                 className={className}
-                href={href}
             >
                 {children}
-            </span> 
+            </span>
         )
     );
 };
@@ -27,6 +26,7 @@ export const BaseLink = styled(Link)`
     border-bottom: calc(1em/16) dashed var(--white);
     text-decoration: none;
     transition: transform .2s;
+    cursor: pointer;
 
     &:hover,
     &.hover {

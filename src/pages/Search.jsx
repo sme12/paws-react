@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Grid, GridItem } from '../components/styles/Grid';
 import { SecondaryButton } from '../components/shared/Button';
 import Autocomplete from '../components/shared/Autocomplete';
+import { BaseLink } from '../components/shared/Link';
 import ContentStyles from '../components/styles/ContentStyles';
 import { IMAGE_PROXY } from '../constants';
 import cityList from '../dictionaries/cityList';
@@ -15,6 +16,8 @@ import breeds from '../dictionaries/breeds';
 import sex from '../dictionaries/sex';
 
 import { useQuery, gql } from '@apollo/client';
+
+import { take } from 'ramda';
 
 const LIST_SHELTERS = gql`
   query ListShelters {
@@ -34,16 +37,16 @@ const LIST_DOGGIES = gql`
       $filters: ModelDoggieFilterInput
     ) {
     listDoggies(filter: $filters) {
-      items {
-        id
-        name
-        age
-        breed
-        image
-        city
-      }
+        items {
+            id
+            name
+            age
+            breed
+            image
+            city
+            }
+        }
     }
-  }
 `;
 
 const SearchControls = ({ filters, onChangeFilters }) => {
@@ -130,7 +133,16 @@ const DoggieSearchResultStyles = styled.div`
     font-size: 1rem;
     background-color: rgba(54, 51, 70, 0.6);
     padding: 16px;
+    transition: background-color .3s, color .3s;
     cursor: pointer;
+
+    &:hover {
+        background-color: var(--alto-grey);
+
+        a {
+            color: var(--grey);
+        }
+    }
 
     h3 {
         font-size: 1.5rem;
@@ -198,7 +210,12 @@ const Search = () => {
             age: ''
     });
 
+    const TAKE_QUANTITY = 6;
+
+    const [takeQuantity, setTakeQuantity] = useState(TAKE_QUANTITY);
+
     const handleChangeFilters = (selectedFilters) => {
+        setTakeQuantity(TAKE_QUANTITY);
         setFilter(selectedFilters);
     };
 
@@ -210,10 +227,15 @@ const Search = () => {
     }, {});
 
     const { loading, error, data } = useQuery(LIST_DOGGIES, {
+        notifyOnNetworkStatusChange:true,
         variables: {
             filters: Object.keys(queryFilters).length > 0 ? queryFilters : null
         }
     });
+
+    const onShowMoreButtonClick = () => {
+        setTakeQuantity(takeQuantity + TAKE_QUANTITY);
+    };
 
     return (
         <div>
@@ -229,29 +251,46 @@ const Search = () => {
             <div style={{ height: '88px' }}>
             </div>
             <section style={{ paddingTop: '48px', paddingBottom: '48px'}}>
-                {loading ? 'Загружаем хвосты...' : 
                     <ContentStyles>
-                        <p style={{marginBottom: '24px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold'}}>
-                            Вот кого мы подобрали по вашим пожеланиям
-                        </p>
-                        <Grid
-                            templateColumns="repeat(3, 1fr)"
-                            alignItems="center"
-                        >
-                            {data.listDoggies.items.map((doggie, index) => (
-                                <GridItem row="auto" fullWidth key={index}>
-                                    <DoggieSearchResult
-                                        name={doggie.name}
-                                        age={doggie.age}
-                                        breed={doggie.breed}
-                                        city={doggie.city}
-                                        image={doggie.image}
-                                    />
-                                </GridItem>
-                            ))}
-                        </Grid>
+                        {loading ? 'Загружаем хвосты...' : 
+                            <div>
+                                <p style={{marginBottom: '24px', textAlign: 'center', fontSize: '24px', fontWeight: 'bold'}}>
+                                    {data.listDoggies.items.length
+                                        ? 'Вот кого мы подобрали по вашим пожеланиям'
+                                        : 'Никто не нашёлся :( Попробуйте поменять фильтры.'
+                                    }
+                                </p>
+                                <Grid
+                                    templateColumns="repeat(3, 1fr)"
+                                    alignItems="center"
+                                >
+                                    {take(takeQuantity, data.listDoggies.items.map((doggie, index) => (
+                                        <GridItem row="auto" fullWidth key={index}>
+                                            <DoggieSearchResult
+                                                name={doggie.name}
+                                                age={doggie.age}
+                                                breed={doggie.breed}
+                                                city={doggie.city}
+                                                image={doggie.image}
+                                            />
+                                        </GridItem>
+                                    )))}
+                                </Grid>
+                                {
+                                    data.listDoggies.items.length > takeQuantity &&
+                                    <div style={{ paddingTop: '32px', textAlign: 'center'}}>
+                                        <button 
+                                            type="button"
+                                            className="u-clear-button"
+                                            onClick={onShowMoreButtonClick}
+                                        >
+                                            <BaseLink>Показать ещё</BaseLink>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        }
                     </ContentStyles>
-                }
             </section>
             <Footer />
         </div>
