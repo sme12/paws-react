@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { Grid, GridItem } from '../styles/Grid';
 import { BaseLink } from './Link';
 import styled from 'styled-components';
@@ -75,7 +76,7 @@ const DoggieCard = ({ name, age, breed, image, id }) => {
             onMouseOver={() => setHover({ hover: true })}
             onMouseOut={() => setHover({ hover: false })}
         >
-            <a href={`/profile/${id}`}>
+            <Link to={`/profile/${id}`}>
                 <div className="metaWrapper">
                     <h3>{name}</h3>
                     <p>{ages[age]},</p>
@@ -86,7 +87,7 @@ const DoggieCard = ({ name, age, breed, image, id }) => {
                         className={state.hover && 'hover'}
                     >Узнать больше</BaseLink>
                 </div>
-            </a>
+            </Link>
         </DoggieCardStyles>
     )
 }

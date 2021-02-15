@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { useUrlSearchParams } from 'use-url-search-params';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
@@ -182,7 +183,7 @@ const DoggieSearchResultStyles = styled.div`
 const DoggieSearchResult = ({ name, age, breed, city, image, id }) => {
     return (
         <DoggieSearchResultStyles>
-            <a href={`/profile/${id}`}>
+            <Link to={`/profile/${id}`}>
                 <div className="imageWrapper">
                     <img 
                         src={`${IMAGE_PROXY.url}fill/144/144/ce/0/plain/${IMAGE_PROXY.storage}${image}`}
@@ -197,7 +198,7 @@ const DoggieSearchResult = ({ name, age, breed, city, image, id }) => {
                         <p className="city">г.{cityList[city]}</p>
                     </div>
                 </div>
-            </a>
+            </Link>
         </DoggieSearchResultStyles>
     )
 }
