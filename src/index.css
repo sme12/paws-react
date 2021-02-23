@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 .layout {
   margin: 0 auto;
-  max-width: var(--maxWidth);
+  width: var(--maxWidth); /*TODO: Change to max-width for responsiveness*/
   background-color: var(--dark-grey);
 }
 

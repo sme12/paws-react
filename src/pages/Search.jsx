@@ -122,7 +122,7 @@ const SearchControls = ({ filters, onChangeFilters }) => {
                 </GridItem>
             </Grid>
             <div style={{ position: 'absolute', bottom: '-88px', width: '100%', zIndex: '0' }}>
-                <div style={{maxWidth: '368px', margin: '24px auto 0 auto'}}>
+                <div style={{width: '368px', margin: '24px auto 0 auto'}}>
                     <SecondaryButton onClick={handleApplyButtonClick}>Применить фильтры</SecondaryButton>
                 </div>
             </div>

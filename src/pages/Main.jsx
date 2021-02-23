@@ -171,7 +171,7 @@ const Main = () => {
             </Hero>
             <section style={{ paddingTop: '56px', paddingBottom: '48px', fontSize: '24px' }}>
                 <ContentStyles>
-                    <p style={{margin: '0 auto 56px auto', maxWidth: '757px', textAlign: 'center'}}>
+                    <p style={{margin: '0 auto 56px auto', width: '757px', textAlign: 'center'}}>
                         Или посмотрите среди этих отличных ребят, которые прямо сейчас ищут свой дом
                     </p>
                     <div style={{marginBottom: '48px'}}>
