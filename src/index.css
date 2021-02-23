@@ -77,3 +77,8 @@ h1, h2, h3, h4, h5, h6, p {
   -moz-osx-font-smoothing: inherit;
   -webkit-appearance: none;
 }
+
+/* TODO: install Tailwind for such classes */
+.u-mr2 {
+  margin-right: 28px;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import is from 'styled-is';
 
 const Button = ({ children, className, type, onClick }) => {
     return (
@@ -45,6 +46,11 @@ export const BaseButton = styled(Button)`
         color: rgba(25, 27, 31, 0.7);
         transform: scale(.98);
     }
+
+    ${is('inline')`
+        display: inline-flex;
+        width: auto;
+    `};
 
     &.home-controls-button {
         @media (max-width: 1120px) {

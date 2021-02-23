@@ -5,8 +5,7 @@ import Hero from '../components/Hero';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import { Grid, GridItem } from '../components/styles/Grid';
-import { SecondaryButton } from '../components/shared/Button';
-import Autocomplete from '../components/shared/Autocomplete';
+import { BaseButton } from '../components/shared/Button';
 import { BaseLink } from '../components/shared/Link';
 import ContentStyles from '../components/styles/ContentStyles';
 import { IMAGE_PROXY } from '../constants';
@@ -66,7 +65,8 @@ const ProfileHeroBottom = ({ name, age, breed, city }) => {
                         <p>г. {cityList[city]}</p>
                     </GridItem>
                     <GridItem justifySelf="end">
-                        Test
+                            <BaseLink href="" className="u-mr2">Стать куратором</BaseLink>
+                            <BaseButton inline={true}>Взять домой</BaseButton>
                     </GridItem>
                 </Grid>
             </div>
