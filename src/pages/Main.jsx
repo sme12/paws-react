@@ -10,7 +10,7 @@ import { BaseButton } from '../components/shared/Button';
 import { Toggle } from '../components/shared/Checkbox';
 import Suggestions from '../components/shared/Suggestions';
 import ContentStyles from '../components/styles/ContentStyles';
-import Autocomplete from '../components/shared/Autocomplete';
+import Select from '../components/shared/Select';
 import cityList from '../dictionaries/cityList';
 
 const HomeControls = () => {
@@ -23,7 +23,7 @@ const HomeControls = () => {
         shouldFocusError: false,
     });
 
-    const handleCitySelect = ({ value }) => {
+    const handleCitySelect = ( value ) => {
         clearErrors(['city']);
         setCity({
             value,
@@ -31,7 +31,7 @@ const HomeControls = () => {
         });
     };
     const onSubmit = (data) => {
-        if (!city.disabled && !Object.values(cityList).some(c => c === data.city)) {
+        if (!city.disabled && !Object.keys(cityList).some(c => c === data.city)) {
             setError('city', {
                 type: 'manual',
                 message: 'В нашей базе нет такого варианта'
@@ -65,17 +65,16 @@ const HomeControls = () => {
                 alignItems="center"
             >
                 <GridItem column="1 / 7">
-                    <Autocomplete 
+                    <Select
                         label="Я ищу собаку в городе:"
-                        placeholder="Начните набирать название города"
                         name="city"
-                        options={cityList}
+                        placeholder="Выберите город из списка"
+                        register={register}
                         onSelect={handleCitySelect}
-                        value={city.value}
-                        register={register()}
-                        disabled={city.disabled}
                         invalid={errors.city}
                         errorMessage={errors.city && errors.city.message}
+                        options={cityList}
+                        isDefaultDisabled={true}
                     />
                 </GridItem>
                 <GridItem column="7 / 10" style={{ marginTop: '39px', paddingBottom: '18px' }}>

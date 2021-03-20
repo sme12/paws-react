@@ -14,10 +14,11 @@ const FormStyles = styled.div`
         margin-bottom: 16px;
     }
 
-    input {
+    input,
+    select {
         width: 100%;
         padding: 16px 6px;
-        font-size: var(--font-size-1);
+        font-size: var(--font-size-2);
         line-height: 1.171875;
         border: 2px solid #ddd;
         border-radius: 8px;
@@ -40,6 +41,29 @@ const FormStyles = styled.div`
 
     input:disabled::placeholder  {
         opacity: .5;
+    }
+
+    .error-message {
+        height: 18px;
+        padding-top: 8px;
+        color: var(--danger);
+    }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        color: var(--weak-grey);
+        background-image: url('icon-down.svg');
+        background-repeat: no-repeat;
+        background-position: center right 16px;
+    }
+
+    option {
+        color: var(--grey);
+
+        &:disabled {
+            display: none;
+        }
     }
 `;
 
